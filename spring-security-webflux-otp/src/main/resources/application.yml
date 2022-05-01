@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: otpdb
+      auto-index-creation: true
+
+
+# Disabling the swagger-ui
+# https://springdoc.org/
+springdoc:
+  api-docs:
+    groups:
+      enabled: false
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
