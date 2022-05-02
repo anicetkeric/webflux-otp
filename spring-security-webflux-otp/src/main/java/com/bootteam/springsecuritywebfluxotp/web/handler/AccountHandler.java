@@ -1,8 +1,7 @@
 package com.bootteam.springsecuritywebfluxotp.web.handler;
 
 
-import com.bootteam.springsecuritywebfluxotp.security.SecurityUtils;
-import com.bootteam.springsecuritywebfluxotp.security.TokenProvider;
+import com.bootteam.springsecuritywebfluxotp.common.exception.ValidatorException;
 import com.bootteam.springsecuritywebfluxotp.service.UserService;
 import com.bootteam.springsecuritywebfluxotp.service.mapper.dto.ApiResponseDTO;
 import com.bootteam.springsecuritywebfluxotp.service.mapper.dto.LoginDTO;
@@ -11,12 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.security.Principal;
 
 @Component
@@ -24,9 +24,7 @@ import java.security.Principal;
 public class AccountHandler {
 
     private final UserService userService;
-
-    private final TokenProvider tokenProvider;
-
+    private final Validator validator;
     private final ReactiveAuthenticationManager authenticationManager;
 
     public Mono<ServerResponse> isAuthenticated(ServerRequest serverRequest) {
@@ -42,22 +40,26 @@ public class AccountHandler {
 
         var otpCode = serverRequest.pathVariable("code");
 
-        return SecurityUtils
-                .getCurrentUserLogin()
-                .switchIfEmpty(Mono.error(new UsernameNotFoundException("Current user login not found")))
-                .flatMap(u -> userService.checkCode(otpCode))
-                .flatMap(user ->
+        return serverRequest.principal()
+                .map(Principal::getName)
+                .flatMap(u -> userService.checkCode(u, otpCode))
+                .flatMap(token ->
                         ServerResponse.status(HttpStatus.OK)
-                                .bodyValue(new ApiResponseDTO(user, "OtpCode")));
+                                .bodyValue(new ApiResponseDTO(token, "Otp checking success")));
     }
 
 
     public Mono<ServerResponse> login(final ServerRequest request) {
         return request.bodyToMono(LoginDTO.class)
+                .flatMap(body ->
+                        validator.validate(body).isEmpty()
+                                ? Mono.just(body)
+                                : Mono.error(new ValidatorException(validator.validate(body).stream().map(ConstraintViolation::getMessage).toList().toString()))
+                )
                 .flatMap(login ->
                         authenticationManager
                                 .authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()))
-                                .flatMap(auth -> Mono.fromCallable(() -> tokenProvider.generateToken(auth)))
+                                .flatMap(userService::setUserOtp)
                 )
                 .flatMap(jwt ->
                         ServerResponse.status(HttpStatus.OK)
@@ -65,8 +67,14 @@ public class AccountHandler {
     }
 
     public Mono<ServerResponse> register(final ServerRequest request) {
+
         return request.bodyToMono(UserPasswordDTO.class)
-                .flatMap(userService::register)
+                .flatMap(body ->
+                        validator.validate(body).isEmpty()
+                        ? Mono.just(body)
+                        : Mono.error(new ValidatorException(validator.validate(body).stream().map(ConstraintViolation::getMessage).toList().toString()))
+                )
+                .flatMap(userService::createUser)
                 .flatMap(savedUser ->
                         ServerResponse.status(HttpStatus.CREATED)
                                 .bodyValue(new ApiResponseDTO(savedUser, "User created successfully")));
