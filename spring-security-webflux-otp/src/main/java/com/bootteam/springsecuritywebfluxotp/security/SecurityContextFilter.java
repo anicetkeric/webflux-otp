@@ -1,7 +1,6 @@
 package com.bootteam.springsecuritywebfluxotp.security;
 
 import com.bootteam.springsecuritywebfluxotp.common.JWTUtils;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -25,8 +24,9 @@ public class SecurityContextFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String jwt = JWTUtils.resolveToken(exchange.getRequest());
-        if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
-            Authentication authentication = this.tokenProvider.getAuthentication(jwt);
+        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+            // request est otp et clain est otp
+            Authentication authentication = tokenProvider.getAuthentication(jwt);
             return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
         }
         return chain.filter(exchange);

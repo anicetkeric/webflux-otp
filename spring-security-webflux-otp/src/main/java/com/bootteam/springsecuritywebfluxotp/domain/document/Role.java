@@ -9,6 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

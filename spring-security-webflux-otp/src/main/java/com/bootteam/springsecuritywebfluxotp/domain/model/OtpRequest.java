@@ -13,8 +13,8 @@ import java.time.Instant;
 @EqualsAndHashCode
 public class OtpRequest implements Serializable {
 
-    @Size(max = 6)
-    private String password;
+    @Size(max = 4)
+    private String code;
 
     private Instant time;
 }
