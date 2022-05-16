@@ -1,6 +1,7 @@
 package com.bootteam.springsecuritywebfluxotp.security;
 
 import com.bootteam.springsecuritywebfluxotp.common.AppConstant;
+import com.bootteam.springsecuritywebfluxotp.common.DateUtils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.jackson.io.JacksonSerializer;
 import io.jsonwebtoken.security.Keys;
@@ -19,6 +20,7 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -43,14 +45,14 @@ public class TokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
+        long now = (DateUtils.convertFromLocalDateToDate()).getTime();
         Date validity = new Date(now + (isTempToken ? AppConstant.TOKEN_TEMP_VALIDITY_TIME : AppConstant.TOKEN_VALIDITY_TIME));
 
 
         return Jwts
                 .builder()
                 .setSubject(authentication.getName())
-                .claim(AppConstant.AUTHORITIES_KEY, authorities)
+                .claim(AppConstant.AUTHORITIES_KEY, isTempToken ? "PRE_AUTH" : authorities)
                 .setId(UUID.randomUUID().toString())
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
@@ -81,11 +83,11 @@ public class TokenProvider {
             return true;
         } catch (ExpiredJwtException | SignatureException | MalformedJwtException | UnsupportedJwtException e) {
             LOGGER.trace("Invalid JWT token: {}", e.getMessage());
+            throw e;
         } catch (IllegalArgumentException e) {
             LOGGER.error("Token validation error {}", e.getMessage());
+            throw e;
         }
-
-        return false;
     }
 
     public Mono<Authentication> getCurrentUserAuthentication() {

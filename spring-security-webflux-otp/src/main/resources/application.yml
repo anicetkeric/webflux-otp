@@ -5,6 +5,8 @@ spring:
       port: 27017
       database: otpdb
       auto-index-creation: true
+      username: admin
+      password: admin
 
 
 # Disabling the swagger-ui
