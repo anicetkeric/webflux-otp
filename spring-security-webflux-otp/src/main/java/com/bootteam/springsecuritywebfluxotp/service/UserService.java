@@ -12,7 +12,22 @@ public interface UserService {
 
     Mono<User> createUser(UserPasswordDTO userPasswordDTO);
 
+    /**
+     * @param authenticationName authentication Name
+     * @param code otp code
+     * @return jwt temp token
+     */
     Mono<String> checkCode(String authenticationName, @NotNull String code);
 
+    /**
+     * @param authenticationName authentication Name
+     * @return Mono OtpTokenDTO
+     */
+    Mono<OtpTokenDTO> resendCode(String authenticationName);
+
+    /**
+     * @param authentication  security authentication
+     * @return Mono OtpTokenDTO
+     */
     Mono<OtpTokenDTO> setUserOtp(Authentication authentication);
 }

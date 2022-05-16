@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +17,8 @@ public class OtpRequest implements Serializable {
     @Size(max = 4)
     private String code;
 
-    private Instant time;
+    private LocalDateTime time;
+
+    private OtpChannel channel = OtpChannel.EMAIL;
 }
+

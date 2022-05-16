@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 @UtilityClass
 public class JWTUtils {
 
-    private static final String TOKEN_PREFIX = "Bearer ";
+    private final String TOKEN_PREFIX = "Bearer ";
     public String resolveToken(ServerHttpRequest request) {
         String bearerToken = request.getHeaders().getFirst(AppConstant.AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {

@@ -25,12 +25,10 @@ public class SecurityContextFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String jwt = JWTUtils.resolveToken(exchange.getRequest());
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            // request est otp et clain est otp
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
         }
         return chain.filter(exchange);
     }
-
 
 }

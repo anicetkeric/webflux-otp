@@ -8,6 +8,7 @@ import com.bootteam.springsecuritywebfluxotp.service.mapper.dto.LoginDTO;
 import com.bootteam.springsecuritywebfluxotp.service.mapper.dto.UserPasswordDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ public class AccountHandler {
     private final Validator validator;
     private final ReactiveAuthenticationManager authenticationManager;
 
+    @PreAuthorize("hasRole('ROLE_USER') AND hasRole('ROLE_ADMIN')")
     public Mono<ServerResponse> isAuthenticated(ServerRequest serverRequest) {
 
         return serverRequest.principal()
@@ -36,6 +38,7 @@ public class AccountHandler {
                                 .bodyValue(new ApiResponseDTO(user, "Current user is authenticated")));
     }
 
+    @PreAuthorize("hasRole('PRE_AUTH')")
     public Mono<ServerResponse> optCheckCode(ServerRequest serverRequest) {
 
         var otpCode = serverRequest.pathVariable("code");
@@ -43,6 +46,17 @@ public class AccountHandler {
         return serverRequest.principal()
                 .map(Principal::getName)
                 .flatMap(u -> userService.checkCode(u, otpCode))
+                .flatMap(token ->
+                        ServerResponse.status(HttpStatus.OK)
+                                .bodyValue(new ApiResponseDTO(token, "Otp checking success")));
+    }
+
+    @PreAuthorize("hasRole('PRE_AUTH')")
+    public Mono<ServerResponse> optResendCode(ServerRequest serverRequest) {
+
+        return serverRequest.principal()
+                .map(Principal::getName)
+                .flatMap(userService::resendCode)
                 .flatMap(token ->
                         ServerResponse.status(HttpStatus.OK)
                                 .bodyValue(new ApiResponseDTO(token, "Otp checking success")));
@@ -63,7 +77,7 @@ public class AccountHandler {
                 )
                 .flatMap(jwt ->
                         ServerResponse.status(HttpStatus.OK)
-                                .bodyValue(new ApiResponseDTO(jwt, "User login success")));
+                                .bodyValue(new ApiResponseDTO(jwt.token(), "User login success")));
     }
 
     public Mono<ServerResponse> register(final ServerRequest request) {

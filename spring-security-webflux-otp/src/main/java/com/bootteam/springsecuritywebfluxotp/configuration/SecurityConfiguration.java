@@ -1,7 +1,10 @@
 package com.bootteam.springsecuritywebfluxotp.configuration;
 
+import com.bootteam.springsecuritywebfluxotp.common.exception.CustomAccessDeniedHandler;
+import com.bootteam.springsecuritywebfluxotp.common.exception.CustomAuthenticationEntryPoint;
 import com.bootteam.springsecuritywebfluxotp.security.SecurityContextFilter;
 import com.bootteam.springsecuritywebfluxotp.security.TokenProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,7 @@ import reactor.core.publisher.Mono;
 
 import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers.pathMatchers;
 
+@Slf4j
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class SecurityConfiguration {
@@ -31,11 +35,15 @@ public class SecurityConfiguration {
     private final ReactiveUserDetailsService userDetailsService;
 
     private final TokenProvider tokenProvider;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
 
-    public SecurityConfiguration( ReactiveUserDetailsService userDetailsService, TokenProvider tokenProvider) {
+    public SecurityConfiguration(ReactiveUserDetailsService userDetailsService, TokenProvider tokenProvider, CustomAccessDeniedHandler accessDeniedHandler, CustomAuthenticationEntryPoint authenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
+        this.accessDeniedHandler = accessDeniedHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Bean
@@ -69,8 +77,8 @@ public class SecurityConfiguration {
 
                 // Set unauthorized requests exception handler
                 .exceptionHandling()
-                .authenticationEntryPoint((serv, e) -> Mono.fromRunnable(() -> serv.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED)))
-                .accessDeniedHandler((serv, e) -> Mono.fromRunnable(() -> serv.getResponse().setStatusCode(HttpStatus.FORBIDDEN)))
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
                 .and()
                 .headers()
                 .contentSecurityPolicy("default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:")

@@ -81,9 +81,10 @@ public class AccountRouter {
                 .nest(path("/api/user"), builder ->
                         builder
                                 .GET("/authenticate", accountHandler::isAuthenticated)
+                                .GET("/resend/code", accountHandler::optResendCode)
                                 .POST("/register", accountHandler::register)
                                 .POST("/login", accountHandler::login)
-                                .PUT("/otp/{code}", accountHandler::optCheckCode))
+                                .GET("/otp/{code}", accountHandler::optCheckCode))
                 .build();
     }
 
