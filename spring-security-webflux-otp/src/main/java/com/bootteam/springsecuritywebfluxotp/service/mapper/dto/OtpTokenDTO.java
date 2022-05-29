@@ -1,3 +1,5 @@
 package com.bootteam.springsecuritywebfluxotp.service.mapper.dto;
 
-public record OtpTokenDTO(String token, String otpCode) {}
+import com.bootteam.springsecuritywebfluxotp.domain.document.User;
+
+public record OtpTokenDTO(String token, User user) {}

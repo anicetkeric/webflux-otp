@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
     private final TokenProvider tokenProvider;
     private final UserMapper mapper;
 
+    private final OTPMailService otpMailService;
+
 
     /**
      * {@inheritDoc}
@@ -70,7 +72,7 @@ public class UserServiceImpl implements UserService {
         Mono<User> userMono = getUserMono(authenticationName);
 
         return userMono.flatMap(user -> setOtpRequest(user, false)).zipWhen(u -> tokenProvider.getCurrentUserAuthentication().flatMap(authentication -> Mono.just(tokenProvider.generateToken(authentication, true))))
-                .flatMap(t -> Mono.just(new OtpTokenDTO(t.getT2(), t.getT1().getOtpRequest().getCode()))).doOnSuccess(t -> sendOtp(t.otpCode()));
+                .flatMap(t -> Mono.just(new OtpTokenDTO(t.getT2(), t.getT1()))).doOnSuccess(t -> sendOtp(t.user()));
     }
 
     /**
@@ -113,15 +115,16 @@ public class UserServiceImpl implements UserService {
         Mono<User> userMono = getUserMono(authentication.getName());
 
         return userMono.flatMap(user -> setOtpRequest(user, false)).zipWhen(token -> Mono.just(tokenProvider.generateToken(authentication, true)))
-               .flatMap(t -> Mono.just(new OtpTokenDTO(t.getT2(), t.getT1().getOtpRequest().getCode()))).doOnSuccess(t -> sendOtp(t.otpCode()));
+               .flatMap(t -> Mono.just(new OtpTokenDTO(t.getT2(), t.getT1()))).doOnSuccess(t -> sendOtp(t.user()));
     }
 
     /**
      * Send otp code to email
-     * @param code otp code
+     * @param user current user
      */
-    private void sendOtp(String code){
-        LOGGER.info("send code {} to user", code);
+    private void sendOtp(User user){
+        LOGGER.info("send code {} to user {}", user.getOtpRequest().getCode(), user.getEmail());
+        otpMailService.sendLoginOTPEmail(user);
     }
 
     /**
@@ -129,11 +132,8 @@ public class UserServiceImpl implements UserService {
      * @return Mono of User
      */
     private Mono<User> setOtpRequest(User user, boolean erase) {
-        if(erase) {
-            user.setOtpRequest(new OtpRequest());
-        }else {
-            user.setOtpRequest(new OtpRequest(RandomStringUtils.randomAlphanumeric(4), DateUtils.getLocalDateTimeNow().plusMinutes(10), OtpChannel.EMAIL));
-        }
+        OtpRequest otpRequest = (erase) ? new OtpRequest() : new OtpRequest(RandomStringUtils.randomAlphanumeric(4), DateUtils.getLocalDateTimeNow().plusMinutes(10), OtpChannel.EMAIL);
+        user.setOtpRequest(otpRequest);
         return userRepository.save(user);
     }
 
