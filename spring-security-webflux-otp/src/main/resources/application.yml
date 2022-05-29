@@ -7,7 +7,23 @@ spring:
       auto-index-creation: true
       username: admin
       password: admin
-
+  mail:
+    host: localhost
+    port: 25
+    username: username
+    password: password
+    # Other properties
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 300
+          writetimeout: 5000
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+    protocol: smtp
 
 # Disabling the swagger-ui
 # https://springdoc.org/
@@ -18,3 +34,9 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+
+
+app:
+  mail:
+    from: no-reply@test.com
+    base-url: http://localhost:8080

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
+<head>
+  <title th:text="#{email.activation.title}">JHipster activation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}"/>
+</head>
+<body>
+
+<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+  <div style="margin:50px auto;width:70%;padding:20px 0">
+    <div style="border-bottom:1px solid #eee">
+      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Company Brand</a>
+    </div>
+
+    <h4 class="text" style="font-size:1.4em;text-align:center">Verify your login</h4>
+
+
+    <p style="font-size:1.1em" th:text="#{email.activation.greeting(${user.login})}">Dear</p>
+    <p>Please use the following One Time Password (OTP) to complete your  login:</p>
+
+
+    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
+      324457</h2>
+
+    <p></p>
+    <p>
+      <span>NOTE: This code is valid for 10 minutes. </span>
+      <br/>
+      <em>If you didn't request this email, there's nothing to worry about - you can safely ignore it.</em>
+    </p>
+
+    <p>Regards,</p>
+
+    <table style="padding:38px 30px;" valign="top" width="100%" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor="#efefef" >
+      <tbody >
+      <!--Social Media links row -->
+      <tr>
+        <td style="padding-bottom:16px;" valign="top" align="center">
+          <table cellspacing="0" cellpadding="0" border="0" align="center">
+            <tbody>
+            <tr>
+              <!--Facebook Link -->
+              <td valign="top" align="center">
+                <a href="https://www.facebook.com/"
+                   target="_blank"
+                   style="text-decoration:none;">
+                  <img src="https://i2.lensdump.com/i/ZBA8wH.png"
+                       alt="fb"
+                       style="display:block;
+                                                              font-family:Arial,
+                                                              sans-serif;
+                                                              font-size:14px;
+                                                              line-height:14px;
+                                                              color:#ffffff;
+                                                              max-width:26px;"
+                       width="26"
+                       border="0"
+                       height="26">
+                </a>
+              </td>
+
+              <!--Spacing <td> -->
+              <td style="width:6px;" width="6">&nbsp;</td>
+
+              <!--Twitter Link -->
+              <td valign="top" align="center">
+                <a href="https://twitter.com"
+                   target="_blank"
+                   style="text-decoration:none;">
+                  <img src="https://i.lensdump.com/i/ZBAiKc.png"
+                       alt="twitter"
+                       style="display:block;
+                                                              font-family:Arial,
+                                                              sans-serif;
+                                                              font-size:14px;
+                                                              line-height:14px;
+                                                              color:#ffffff;
+                                                              max-width:27px;"
+                       width="27"
+                       border="0"
+                       height="26">
+                </a>
+              </td>
+
+              <!--Spacing <td> -->
+              <td style="width:6px;" width="6">&nbsp;</td>
+
+              <!--LinkedIn Link -->
+              <td valign="top" align="center">
+                <a href="https://linkedin.com"
+                   target="_blank"
+                   style="text-decoration:none;">
+                  <img src="https://i3.lensdump.com/i/ZBAW11.png"
+                       alt="linkedin"
+                       style="display:block;
+                                                              font-family:Arial,
+                                                              sans-serif;
+                                                              font-size:14px;
+                                                              line-height:14px;
+                                                              color:#ffffff;
+                                                              max-width:26px;"
+                       width="26"
+                       border="0"
+                       height="26">
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <!--Other links and info row -->
+      <tr>
+        <td style="font-family:'Open Sans', Arial, sans-serif;
+                                             font-size:11px;
+                                             line-height:18px;
+                                             color:#999999;"
+            valign="top"
+            align="center">
+          <a href="#"
+             target="_blank"
+             style="color:#999999;
+                                              text-decoration:underline;">
+            Our Blog
+          </a> |
+          <a href="#"
+             target="_blank"
+             style="color:#999999;
+                                              text-decoration:underline;">
+            Policies
+          </a> |
+          <a href="#"
+             target="_blank"
+             style="color:#999999;
+                                              text-decoration:underline;">
+            Help Center
+          </a>
+          <br>
+          ©2022 Design By aek. All Rights Reserved.
+          <br>
+          <strong>This message is automatically generated. Please don't reply to it.</strong>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+</body>
+</html>
+
+
+
