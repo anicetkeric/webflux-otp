@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
 <head>
-  <title th:text="#{email.activation.title}">JHipster activation</title>
+  <title th:text="#{email.otp.verification}">OPT checking</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}"/>
 </head>
@@ -16,18 +16,16 @@
     <h4 class="text" style="font-size:1.4em;text-align:center">Verify your login</h4>
 
 
-    <p style="font-size:1.1em" th:text="#{email.activation.greeting(${user.login})}">Dear</p>
+    <p style="font-size:1.1em" th:text="#{email.otp.greeting(${user.getFirstName()})}">Hi</p>
     <p>Please use the following One Time Password (OTP) to complete your  login:</p>
 
-
-    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
-      324457</h2>
+    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;" th:text="${user.getOtpRequest().getCode()}"></h2>
 
     <p></p>
     <p>
       <span>NOTE: This code is valid for 10 minutes. </span>
       <br/>
-      <em>If you didn't request this email, there's nothing to worry about - you can safely ignore it.</em>
+      <em th:text="#{email.no-reply.instructions}"></em>
     </p>
 
     <p>Regards,</p>

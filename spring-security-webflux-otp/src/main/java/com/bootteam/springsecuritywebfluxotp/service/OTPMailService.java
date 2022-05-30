@@ -87,6 +87,6 @@ public class OTPMailService {
     @Async
     public void sendLoginOTPEmail(User user) {
         LOGGER.debug("Sending login OTP email to '{}'", user.getEmail());
-        sendEmailFromTemplate(user, "mail/OTPCodeEmail", "email.activation.title");
+        sendEmailFromTemplate(user, "mail/OTPCodeEmail", "email.otp.verification");
     }
 }
