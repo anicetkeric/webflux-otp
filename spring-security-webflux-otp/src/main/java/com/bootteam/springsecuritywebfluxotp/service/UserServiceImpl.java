@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
                                             .switchIfEmpty(Mono.defer(() -> roleRepository.save(r))));
 
                                     userPasswordDTO.setUsername(userPasswordDTO.getUsername().toLowerCase());
-                                    User newUser = mapper.UserPasswordDTOToUser(userPasswordDTO);
+                                    User newUser = mapper.userPasswordDTOToUser(userPasswordDTO);
 
                                     String encryptedPassword = passwordEncoder.encode(userPasswordDTO.getPassword());
                                     newUser.setPassword(encryptedPassword);

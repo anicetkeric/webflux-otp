@@ -16,7 +16,7 @@ public interface UserMapper {
     UserDTO toDto(User entity);
 
 
-    default User UserPasswordDTOToUser(UserPasswordDTO userPasswordDTO){
+    default User userPasswordDTOToUser(UserPasswordDTO userPasswordDTO){
         return User.builder()
                 .username(userPasswordDTO.getUsername())
                 .email(userPasswordDTO.getEmail()).firstName(userPasswordDTO.getFirstName())

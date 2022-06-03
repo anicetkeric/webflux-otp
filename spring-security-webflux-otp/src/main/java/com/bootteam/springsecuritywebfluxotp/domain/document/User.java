@@ -15,7 +15,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,7 +28,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "app_user")
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails {
 
     @Serial
     private static final long serialVersionUID = 1L;
