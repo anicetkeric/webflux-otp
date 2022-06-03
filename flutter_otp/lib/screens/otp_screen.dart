@@ -96,7 +96,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                                   color: Colors.green.shade600,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                length: 6,
+                                length: 4,
                                 obscureText: false,
                                 obscuringCharacter: '*',
                                 animationType: AnimationType.fade,

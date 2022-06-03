@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
      * @return Mono of User
      */
     private Mono<User> setOtpRequest(User user, boolean erase) {
-        OtpRequest otpRequest = (erase) ? new OtpRequest() : new OtpRequest(RandomStringUtils.randomAlphanumeric(6), DateUtils.getLocalDateTimeNow().plusMinutes(10), OtpChannel.EMAIL);
+        OtpRequest otpRequest = (erase) ? new OtpRequest() : new OtpRequest(RandomStringUtils.randomAlphanumeric(4), DateUtils.getLocalDateTimeNow().plusMinutes(10), OtpChannel.EMAIL);
         user.setOtpRequest(otpRequest);
         return userRepository.save(user);
     }
