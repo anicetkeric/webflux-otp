@@ -24,7 +24,7 @@ public class UserDetailsService implements ReactiveUserDetailsService{
 
     @Override
     public Mono<UserDetails> findByUsername(final String login) {
-        LOGGER.debug("Authenticating {}", login);
+        LOGGER.debug("Authenticating with {}", login);
         String username = StringUtils.trimToNull(login.toLowerCase());
 
         if (new EmailValidator().isValid(username, null)) {

@@ -77,7 +77,7 @@ public class AccountHandler {
                 )
                 .flatMap(jwt ->
                         ServerResponse.status(HttpStatus.OK)
-                                .bodyValue(new ApiResponseDTO(jwt.token(), "User login success")));
+                                .bodyValue(new ApiResponseDTO(jwt.token(), "Partially successful user login - an OTP code has been sent to your email address")));
     }
 
     public Mono<ServerResponse> register(final ServerRequest request) {

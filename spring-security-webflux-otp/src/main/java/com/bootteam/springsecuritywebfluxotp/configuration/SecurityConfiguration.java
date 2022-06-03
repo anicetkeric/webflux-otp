@@ -27,7 +27,6 @@ import reactor.core.publisher.Mono;
 
 import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers.pathMatchers;
 
-@Slf4j
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class SecurityConfiguration {

@@ -1,5 +1,6 @@
 package com.bootteam.springsecuritywebfluxotp.security;
 
+import com.bootteam.springsecuritywebfluxotp.common.AppConstant;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
@@ -12,7 +13,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-import static com.bootteam.springsecuritywebfluxotp.common.AppConstant.TOKEN_PREFIX;
 
 /**
  * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
@@ -38,7 +38,7 @@ public class SecurityContextFilter implements WebFilter {
 
     private Optional<String> resolveToken(ServerHttpRequest request) {
         String bearerToken = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(AppConstant.TOKEN_PREFIX)) {
             return Optional.of(bearerToken.substring(7));
         }
         return Optional.empty();

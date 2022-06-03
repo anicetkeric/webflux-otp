@@ -48,7 +48,6 @@ public class TokenProvider {
         long now = (DateUtils.convertFromLocalDateToDate()).getTime();
         Date validity = new Date(now + (isTempToken ? AppConstant.TOKEN_TEMP_VALIDITY_TIME : AppConstant.TOKEN_VALIDITY_TIME));
 
-
         return Jwts
                 .builder()
                 .setSubject(authentication.getName())
@@ -59,7 +58,6 @@ public class TokenProvider {
                 .setIssuedAt(Date.from(Instant.now()))
                 .serializeToJsonWith(new JacksonSerializer())
                 .compact();
-
     }
 
     public Authentication getAuthentication(String token) {

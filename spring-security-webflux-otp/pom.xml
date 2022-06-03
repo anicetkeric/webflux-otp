@@ -17,8 +17,8 @@
         <java.version>17</java.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <springdoc.openapi.version>1.6.7</springdoc.openapi.version>
-        <io.jsonwebtoken.version>0.11.2</io.jsonwebtoken.version>
+        <springdoc.openapi.version>1.6.8</springdoc.openapi.version>
+        <io.jsonwebtoken.version>0.11.5</io.jsonwebtoken.version>
     </properties>
     <dependencies>
         <dependency>
@@ -107,6 +107,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
