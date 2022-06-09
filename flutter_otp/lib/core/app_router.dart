@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_otp/data/providers/auth_provider.dart';
+import 'package:flutter_otp/data/repositories/auth_repository.dart';
+import 'package:flutter_otp/logic/cubit/auth/auth_cubit.dart';
 import 'package:flutter_otp/screens/login_screen.dart';
 import 'package:flutter_otp/screens/otp_screen.dart';
 import 'package:flutter_otp/screens/splash_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'exceptions/route_exception.dart';
 
@@ -9,8 +13,10 @@ import 'exceptions/route_exception.dart';
 class AppRouter {
   const AppRouter._();
 
-
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+
+    AuthCubit restaurantCubit =  AuthCubit(repository: AuthRepository(provider: AuthProvider()));
+
 
     switch (settings.name) {
       case SplashScreen.routeName:
@@ -19,11 +25,17 @@ class AppRouter {
         );
       case LoginScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => const LoginScreen(),
+          builder: (_) => BlocProvider(
+            create: (BuildContext context) => restaurantCubit,
+            child: const LoginScreen(),
+          ),
         );
       case OtpScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => const OtpScreen(userEmail: "anicetkouame@yahoo.fr"),
+          builder: (_) => BlocProvider(
+            create: (BuildContext context) => restaurantCubit,
+            child: const OtpScreen(userEmail: "anicetkouame@yahoo.fr")
+          ),
         );
       default:
         throw const RouteException('Route not found!');

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/core/text_styles.dart';
+import 'package:flutter_otp/core/constants/text_styles.dart';
 
-import '../core/color.dart';
+import '../core/constants/color.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
