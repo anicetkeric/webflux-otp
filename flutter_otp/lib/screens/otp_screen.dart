@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/core/color.dart';
+import 'package:flutter_otp/core/constants/color.dart';
 import 'package:flutter_otp/core/helpers.dart';
-import 'package:flutter_otp/widgets/custom_rich_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 

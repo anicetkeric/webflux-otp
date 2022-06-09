@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/core/color.dart';
-import 'package:flutter_otp/core/text_styles.dart';
+import 'package:flutter_otp/core/constants/color.dart';
+import 'package:flutter_otp/core/constants/text_styles.dart';
 
 class CustomFormField extends StatelessWidget {
   final String headingText;

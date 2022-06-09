@@ -1,14 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/core/color.dart';
+import 'package:flutter_otp/core/constants/color.dart';
 
 class CustomRichText extends StatelessWidget {
-  final String discription;
+  final String description;
   final String text;
   final Function() onTap;
   const CustomRichText(
       {Key? key,
-        required this.discription,
+        required this.description,
         required this.text,
         required this.onTap})
       : super(key: key);
@@ -21,7 +21,7 @@ class CustomRichText extends StatelessWidget {
           top: MediaQuery.of(context).size.height * 0.08),
       child: Text.rich(
         TextSpan(
-            text: discription,
+            text: description,
             style: const TextStyle(color: Colors.black87, fontSize: 16),
             children: [
               TextSpan(

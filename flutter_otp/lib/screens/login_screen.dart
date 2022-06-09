@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/core/color.dart';
+import 'package:flutter_otp/core/constants/color.dart';
 import 'package:flutter_otp/screens/otp_screen.dart';
 import 'package:flutter_otp/widgets/custom_button.dart';
 import 'package:flutter_otp/widgets/custom_form_field.dart';
@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: 'Sign In',
                       ),
                       CustomRichText(
-                        discription: "Don't already Have an account? ",
+                        description: "Don't already Have an account? ",
                         text: "Sign Up",
                         onTap: () {},
                       ),
