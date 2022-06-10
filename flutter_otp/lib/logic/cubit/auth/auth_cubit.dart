@@ -1,5 +1,6 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_otp/core/exceptions/api_exceptions.dart';
 import 'package:flutter_otp/data/domain/model/login.dart';
 import 'package:flutter_otp/data/repositories/auth_repository.dart';
 
@@ -16,7 +17,9 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthLoading());
       final response = await repository.userLogin(login);
 
-      emit(AuthLoaded(auth: response ));
+      emit(AuthLoaded(response: response ));
+    } on NetworkStatusException catch(e) {
+      emit(AuthNetworkError(message: e.toString()));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -26,7 +29,10 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthLoading());
       final response = await repository.checkOtpCode(code);
 
-      emit(AuthLoaded(auth: response ));
+      emit(AuthLoaded(response: response ));
+
+    } on NetworkStatusException catch(e) {
+      emit(AuthNetworkError(message: e.toString()));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -38,7 +44,10 @@ class AuthCubit extends Cubit<AuthState> {
 
       final response = await repository.resendOtpCode();
 
-      emit(AuthLoaded(auth: response ));
+      emit(AuthLoaded(response: response ));
+
+    } on NetworkStatusException catch(e) {
+      emit(AuthNetworkError(message: e.toString()));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
