@@ -10,9 +10,6 @@ abstract class AuthState extends Equatable {
 class AuthInitial extends AuthState {
 }
 
-class AuthEmpty extends AuthState {
-}
-
 class AuthLoading extends AuthState {
 }
 
@@ -39,13 +36,23 @@ class AuthError extends AuthState {
 }
 
 class AuthLoaded extends AuthState {
-  final dynamic auth;
+  final dynamic response;
 
   AuthLoaded({
-    required this.auth,
+    required this.response,
   });
 
   @override
-  List<Object> get props => [auth];
+  List<Object> get props => [response];
+}
+class AuthSubmit extends AuthState {
+  final dynamic data;
+
+  AuthSubmit({
+    required this.data,
+  });
+
+  @override
+  List<Object> get props => [data];
 }
 
