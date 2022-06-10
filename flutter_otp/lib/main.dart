@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/core/app_router.dart';
+import 'package:flutter_otp/ui/router/app_router.dart';
 import 'package:flutter_otp/core/app_theme.dart';
 import 'package:flutter_otp/logic/debug/app_bloc_observer.dart';
-import 'package:flutter_otp/screens/splash_screen.dart';
+import 'package:flutter_otp/ui/screens/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
