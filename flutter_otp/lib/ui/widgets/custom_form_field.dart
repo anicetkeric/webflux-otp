@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp/core/constants/color.dart';
 import 'package:flutter_otp/core/constants/text_styles.dart';
 
-class CustomFormField extends StatelessWidget {
+class CustomFormField extends StatefulWidget {
   final String headingText;
   final String hintText;
   final bool obscureText;
@@ -11,6 +11,7 @@ class CustomFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final TextEditingController controller;
   final int maxLines;
+  final FormFieldValidator? validator;
 
   const CustomFormField(
       {Key? key,
@@ -21,8 +22,15 @@ class CustomFormField extends StatelessWidget {
         required this.textInputType,
         required this.textInputAction,
         required this.controller,
-        required this.maxLines})
+        required this.maxLines, this.validator})
       : super(key: key);
+
+  @override
+  State<CustomFormField> createState() => CustomFormFieldState();
+}
+
+class CustomFormFieldState extends State<CustomFormField> {
+  String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +44,7 @@ class CustomFormField extends StatelessWidget {
             bottom: 10,
           ),
           child: Text(
-            headingText,
+            widget.headingText,
             style: CustomTextStyle.textFieldHeading,
           ),
         ),
@@ -49,20 +57,37 @@ class CustomFormField extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: TextField(
-              maxLines: maxLines,
-              controller: controller,
-              textInputAction: textInputAction,
-              keyboardType: textInputType,
-              obscureText: obscureText,
+              maxLines: widget.maxLines,
+              controller: widget.controller,
+              textInputAction: widget.textInputAction,
+              keyboardType: widget.textInputType,
+              obscureText: widget.obscureText,
               decoration: InputDecoration(
-                  hintText: hintText,
+                  hintText: widget.hintText,
                   hintStyle: CustomTextStyle.textFieldHintStyle,
                   border: InputBorder.none,
-                  suffixIcon: suffixIcon),
+                  suffixIcon: widget.suffixIcon),
             ),
           ),
-        )
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        error == null
+            ? Container()
+            : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0), child: Text(
+            error!,
+            style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Theme.of(context).errorColor,fontWeight: FontWeight.normal)
+        ))
       ],
     );
+  }
+
+  String? validate() {
+    setState(() {
+      error = widget.validator!(widget.controller.text);
+    });
+    return error;
   }
 }

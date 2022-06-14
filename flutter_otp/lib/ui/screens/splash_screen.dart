@@ -20,7 +20,7 @@ class SplashScreenState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    Navigator.pushNamed(context, LoginScreen.routeName);
+     Navigator.pushReplacementNamed(context, LoginScreen.routeName);
   }
 
   @override

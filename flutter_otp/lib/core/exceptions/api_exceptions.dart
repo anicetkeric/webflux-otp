@@ -25,7 +25,7 @@ class InternalErrorException extends ApiException {
 }
 
 class UnauthorisedException extends ApiException {
-  UnauthorisedException([message]) : super(message, "Unauthorised: ");
+  UnauthorisedException([message]) : super(message, "Unauthorized: ");
 }
 
 class InvalidInputException extends ApiException {

@@ -17,7 +17,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthLoading());
       final response = await repository.userLogin(login);
 
-      emit(AuthLoaded(response: response ));
+      emit(AuthSuccess(response: response ));
     } on NetworkStatusException catch(e) {
       emit(AuthNetworkError(message: e.toString()));
     } catch (e) {
@@ -29,7 +29,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthLoading());
       final response = await repository.checkOtpCode(code);
 
-      emit(AuthLoaded(response: response ));
+      emit(AuthSuccess(response: response ));
 
     } on NetworkStatusException catch(e) {
       emit(AuthNetworkError(message: e.toString()));
@@ -44,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       final response = await repository.resendOtpCode();
 
-      emit(AuthLoaded(response: response ));
+      emit(AuthSubmit(data: response ));
 
     } on NetworkStatusException catch(e) {
       emit(AuthNetworkError(message: e.toString()));

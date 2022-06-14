@@ -35,10 +35,10 @@ class AuthError extends AuthState {
   List<Object> get props => [message];
 }
 
-class AuthLoaded extends AuthState {
+class AuthSuccess extends AuthState {
   final dynamic response;
 
-  AuthLoaded({
+  AuthSuccess({
     required this.response,
   });
 
