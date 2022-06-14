@@ -17,20 +17,6 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-/*
-public class CustomAccessDeniedHandler implements ServerAccessDeniedHandler {
-
-    @Override
-    public Mono<Void> handle(ServerWebExchange serverWebExchange, AccessDeniedException accessDeniedException) {
-        ServerHttpResponse response = serverWebExchange.getResponse();
-        response.setStatusCode(HttpStatus.FORBIDDEN);
-        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        String responseBody = "{\"message\": \"" + accessDeniedException.getLocalizedMessage() + "\"}";
-        byte[] bytes = responseBody.getBytes(StandardCharsets.UTF_8);
-        DataBuffer buffer = response.bufferFactory().wrap(bytes);
-        return response.writeWith(Mono.just(buffer));
-    }
-}*/
 
 @Slf4j
 @Component

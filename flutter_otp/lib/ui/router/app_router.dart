@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp/core/exceptions/route_exception.dart';
+import 'package:flutter_otp/data/domain/model/loginDTO.dart';
 import 'package:flutter_otp/data/providers/auth_provider.dart';
 import 'package:flutter_otp/data/repositories/auth_repository.dart';
 import 'package:flutter_otp/logic/cubit/auth/auth_cubit.dart';
@@ -18,7 +19,7 @@ class AppRouter {
 
     AuthCubit restaurantCubit =  AuthCubit(repository: AuthRepository(provider: AuthProvider()));
 
-
+    final args = settings.arguments;
     switch (settings.name) {
       case SplashScreen.routeName:
         return MaterialPageRoute(
@@ -32,10 +33,11 @@ class AppRouter {
           ),
         );
       case OtpScreen.routeName:
+        final params = args as LoginDTO;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (BuildContext context) => restaurantCubit,
-            child: const OtpScreen(userEmail: "anicetkouame@yahoo.fr")
+            child: OtpScreen(loginParam: params)
           ),
         );
       case DashboardScreen.routeName:
