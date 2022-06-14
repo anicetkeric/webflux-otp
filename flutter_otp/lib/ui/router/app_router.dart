@@ -17,7 +17,7 @@ class AppRouter {
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
-    AuthCubit restaurantCubit =  AuthCubit(repository: AuthRepository(provider: AuthProvider()));
+    AuthCubit authCubit =  AuthCubit(repository: AuthRepository(provider: AuthProvider()));
 
     final args = settings.arguments;
     switch (settings.name) {
@@ -28,7 +28,7 @@ class AppRouter {
       case LoginScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (BuildContext context) => restaurantCubit,
+            create: (BuildContext context) => authCubit,
             child: const LoginScreen(),
           ),
         );
@@ -36,7 +36,7 @@ class AppRouter {
         final params = args as LoginDTO;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (BuildContext context) => restaurantCubit,
+            create: (BuildContext context) => authCubit,
             child: OtpScreen(loginParam: params)
           ),
         );
