@@ -13,12 +13,6 @@ class AuthProvider {
 
   static ApiClient apiClient = ApiClient();
 
-/*  String? token;
-
-  AuthProvider(){
-    token = getToken().toString();
-  }*/
-
   Future<dynamic> signIn(Login login) async {
     return await apiClient.post(Uri.parse(baseApi + loginUrl), login.toJson(), {'Content-Type':'application/json', 'Accept': 'application/json'});
   }
